@@ -1,0 +1,25 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.open {
+  background-color: var(--status-open-bg);
+  color: var(--status-open-fg);
+}
+
+.inProgress {
+  background-color: var(--status-progress-bg);
+  color: var(--status-progress-fg);
+}
+
+.closed {
+  background-color: var(--status-closed-bg);
+  color: var(--status-closed-fg);
+}
