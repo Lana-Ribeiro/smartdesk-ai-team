@@ -53,6 +53,17 @@
   font-size: 0.8125rem;
 }
 
+.analyzeButton {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .analyzeButton {
+    align-self: stretch;
+  }
+}
+
 .actions {
   display: flex;
   justify-content: flex-end;
