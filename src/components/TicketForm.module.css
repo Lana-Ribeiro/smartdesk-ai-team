@@ -1,0 +1,81 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 110px;
+  line-height: 1.5;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.input[aria-invalid='true'],
+.textarea[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.8125rem;
+}
+
+.hint {
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+}
+
+.analyzeButton {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .analyzeButton {
+    align-self: stretch;
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions > * {
+    width: 100%;
+  }
+}
