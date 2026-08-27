@@ -6,6 +6,7 @@ import { Dashboard } from './components/Dashboard'
 import { EmptyState } from './components/EmptyState'
 import { Header } from './components/Header'
 import type { AppView } from './components/Header'
+import { KanbanBoard } from './components/KanbanBoard'
 import { Modal } from './components/Modal'
 import { TicketDetails } from './components/TicketDetails'
 import { TicketForm } from './components/TicketForm'
@@ -37,6 +38,8 @@ export default function App() {
       <main className={styles.main}>
         {view === 'dashboard' ? (
           <Dashboard tickets={tickets} onSelect={setSelectedId} />
+        ) : view === 'kanban' ? (
+          <KanbanBoard tickets={tickets} onSelect={setSelectedId} />
         ) : (
           <>
             <div className={styles.toolbar}>

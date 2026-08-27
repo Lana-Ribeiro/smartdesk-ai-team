@@ -1,6 +1,6 @@
 import styles from './Header.module.css'
 
-export type AppView = 'tickets' | 'dashboard'
+export type AppView = 'tickets' | 'dashboard' | 'kanban'
 
 interface HeaderProps {
   view: AppView
@@ -35,6 +35,14 @@ export function Header({ view, onNavigate }: HeaderProps) {
             onClick={() => onNavigate('dashboard')}
           >
             Dashboard
+          </button>
+          <button
+            type="button"
+            className={`${styles.navButton} ${view === 'kanban' ? styles.navButtonActive : ''}`}
+            aria-current={view === 'kanban' ? 'page' : undefined}
+            onClick={() => onNavigate('kanban')}
+          >
+            Kanban
           </button>
         </nav>
       </div>
