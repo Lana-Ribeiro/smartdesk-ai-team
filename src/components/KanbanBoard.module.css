@@ -1,0 +1,18 @@
+.wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+  gap: 14px;
+  min-width: 720px;
+}
+
+@media (max-width: 768px) {
+  .board {
+    grid-template-columns: repeat(3, minmax(220px, 260px));
+    min-width: 0;
+  }
+}
