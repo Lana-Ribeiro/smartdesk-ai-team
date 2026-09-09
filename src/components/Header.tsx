@@ -1,3 +1,4 @@
+import { NotificationBell } from './NotificationBell'
 import styles from './Header.module.css'
 
 export type AppView = 'tickets' | 'dashboard' | 'kanban'
@@ -45,6 +46,8 @@ export function Header({ view, onNavigate }: HeaderProps) {
             Kanban
           </button>
         </nav>
+
+        <NotificationBell />
       </div>
     </header>
   )
