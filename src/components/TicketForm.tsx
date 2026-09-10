@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import type { NewTicketInput, TicketPriority } from '../types/ticket'
+import type { NewTicketInput, TicketPriority, TicketTeam } from '../types/ticket'
 import type { TicketSuggestion } from '../lib/ticketAssistant'
 import { suggestFromDescription } from '../lib/ticketAssistant'
+import { TEAM_LABELS, TICKET_TEAMS } from '../lib/teams'
 import { AssistantSuggestion } from './AssistantSuggestion'
 import { Button } from './Button'
 import { PrioritySelect } from './PrioritySelect'
@@ -23,6 +24,8 @@ export function TicketForm({ onSubmit, onCancel }: TicketFormProps) {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState<TicketPriority | null>(null)
+  const [team, setTeam] = useState<TicketTeam | ''>('')
+  const [assignee, setAssignee] = useState('')
   const [errors, setErrors] = useState<FormErrors>({})
   const [suggestion, setSuggestion] = useState<TicketSuggestion | null>(null)
 
@@ -53,7 +56,13 @@ export function TicketForm({ onSubmit, onCancel }: TicketFormProps) {
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
 
-    onSubmit({ title, description, priority: priority as TicketPriority })
+    onSubmit({
+      title,
+      description,
+      priority: priority as TicketPriority,
+      ...(team ? { team } : {}),
+      ...(assignee.trim() ? { assignee: assignee.trim() } : {}),
+    })
   }
 
   return (
@@ -113,6 +122,39 @@ export function TicketForm({ onSubmit, onCancel }: TicketFormProps) {
         <span className={styles.label}>Prioridade</span>
         <PrioritySelect value={priority} onChange={setPriority} invalid={Boolean(errors.priority)} />
         {errors.priority && <span className={styles.error}>{errors.priority}</span>}
+      </div>
+
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="ticket-team">
+          Equipe <span className={styles.optional}>(opcional)</span>
+        </label>
+        <select
+          id="ticket-team"
+          className={styles.input}
+          value={team}
+          onChange={(event) => setTeam(event.target.value as TicketTeam | '')}
+        >
+          <option value="">Sem equipe definida</option>
+          {TICKET_TEAMS.map((option) => (
+            <option key={option} value={option}>
+              {TEAM_LABELS[option]}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className={styles.field}>
+        <label className={styles.label} htmlFor="ticket-assignee">
+          Responsável <span className={styles.optional}>(opcional)</span>
+        </label>
+        <input
+          id="ticket-assignee"
+          className={styles.input}
+          value={assignee}
+          onChange={(event) => setAssignee(event.target.value)}
+          placeholder="Ex.: Ana Souza"
+          maxLength={80}
+        />
       </div>
 
       <p className={styles.hint}>O chamado será criado com o status Aberto.</p>

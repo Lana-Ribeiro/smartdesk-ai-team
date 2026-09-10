@@ -15,6 +15,11 @@
   font-weight: 600;
 }
 
+.optional {
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
 .input,
 .textarea {
   width: 100%;

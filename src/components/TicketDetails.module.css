@@ -45,6 +45,21 @@
   overflow-wrap: anywhere;
 }
 
+.control {
+  width: 100%;
+  padding: 9px 12px;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+}
+
+.control:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
 .meta {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

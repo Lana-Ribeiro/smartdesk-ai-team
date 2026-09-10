@@ -1,20 +1,26 @@
 import { useState } from 'react'
-import type { NewTicketInput, TicketStatus } from './types/ticket'
+import type { NewTicketInput, TicketPriority, TicketStatus, TicketTeam } from './types/ticket'
 import { useTickets } from './store/TicketsContext'
-import { Button } from './components/Button'
 import { Dashboard } from './components/Dashboard'
-import { EmptyState } from './components/EmptyState'
 import { Header } from './components/Header'
 import type { AppView } from './components/Header'
 import { KanbanBoard } from './components/KanbanBoard'
 import { Modal } from './components/Modal'
+import { OperationalCenter } from './components/OperationalCenter'
 import { TicketDetails } from './components/TicketDetails'
 import { TicketForm } from './components/TicketForm'
-import { TicketList } from './components/TicketList'
 import styles from './App.module.css'
 
 export default function App() {
-  const { tickets, createTicket, updateTicketStatus, getTicket } = useTickets()
+  const {
+    tickets,
+    createTicket,
+    updateTicketStatus,
+    updateTicketPriority,
+    updateTicketTeam,
+    updateTicketAssignee,
+    getTicket,
+  } = useTickets()
   const [view, setView] = useState<AppView>('tickets')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -27,10 +33,6 @@ export default function App() {
     setSelectedId(ticket.id)
   }
 
-  function handleStatusChange(status: TicketStatus) {
-    if (selectedTicket) updateTicketStatus(selectedTicket.id, status)
-  }
-
   return (
     <div className={styles.app}>
       <Header view={view} onNavigate={setView} />
@@ -41,29 +43,10 @@ export default function App() {
         ) : view === 'kanban' ? (
           <KanbanBoard tickets={tickets} onSelect={setSelectedId} />
         ) : (
-          <>
-            <div className={styles.toolbar}>
-              <div>
-                <h1 className={styles.heading}>Chamados</h1>
-                <p className={styles.subheading}>
-                  {tickets.length === 0
-                    ? 'Nenhum chamado registrado'
-                    : `${tickets.length} ${tickets.length === 1 ? 'chamado registrado' : 'chamados registrados'}`}
-                </p>
-              </div>
-              <Button onClick={() => setIsFormOpen(true)}>Novo chamado</Button>
-            </div>
-
-            {tickets.length === 0 ? (
-              <EmptyState
-                title="Sem chamados por aqui"
-                description="Crie o primeiro chamado para começar a acompanhar as solicitações no SmartDesk."
-                action={<Button onClick={() => setIsFormOpen(true)}>Novo chamado</Button>}
-              />
-            ) : (
-              <TicketList tickets={tickets} onSelect={setSelectedId} />
-            )}
-          </>
+          <OperationalCenter
+            onNewTicket={() => setIsFormOpen(true)}
+            onOpenDetails={setSelectedId}
+          />
         )}
       </main>
 
@@ -75,7 +58,17 @@ export default function App() {
 
       {selectedTicket && (
         <Modal title="Detalhes do chamado" onClose={() => setSelectedId(null)}>
-          <TicketDetails ticket={selectedTicket} onStatusChange={handleStatusChange} />
+          <TicketDetails
+            ticket={selectedTicket}
+            onStatusChange={(status: TicketStatus) => updateTicketStatus(selectedTicket.id, status)}
+            onPriorityChange={(priority: TicketPriority) =>
+              updateTicketPriority(selectedTicket.id, priority)
+            }
+            onTeamChange={(team: TicketTeam | undefined) => updateTicketTeam(selectedTicket.id, team)}
+            onAssigneeChange={(assignee: string) =>
+              updateTicketAssignee(selectedTicket.id, assignee)
+            }
+          />
         </Modal>
       )}
     </div>

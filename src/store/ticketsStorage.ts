@@ -1,6 +1,7 @@
 import type { Ticket } from '../types/ticket'
 import { isTicketStatus } from '../lib/statuses'
 import { isTicketPriority } from '../lib/priorities'
+import { isTicketTeam } from '../lib/teams'
 
 /**
  * Camada de persistência dos chamados.
@@ -23,7 +24,9 @@ function isTicket(value: unknown): value is Ticket {
     typeof ticket.createdAt === 'string' &&
     typeof ticket.updatedAt === 'string' &&
     isTicketStatus(ticket.status) &&
-    isTicketPriority(ticket.priority)
+    isTicketPriority(ticket.priority) &&
+    (ticket.team === undefined || isTicketTeam(ticket.team)) &&
+    (ticket.assignee === undefined || typeof ticket.assignee === 'string')
   )
 }
 
