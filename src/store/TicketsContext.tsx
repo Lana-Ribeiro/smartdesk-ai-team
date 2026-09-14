@@ -4,7 +4,7 @@ import type { NewTicketInput, Ticket, TicketPriority, TicketStatus, TicketTeam }
 import type { Notification, NotificationTone } from '../types/notification'
 import { DEFAULT_STATUS } from '../lib/statuses'
 import { PRIORITY_LABELS } from '../lib/priorities'
-import { TEAM_LABELS } from '../lib/teams'
+import { TEAM_LABELS, isTeamMember } from '../lib/teams'
 import { loadTickets, saveTickets } from './ticketsStorage'
 import { loadNotifications, saveNotifications } from './notificationsStorage'
 
@@ -18,7 +18,7 @@ interface TicketsContextValue {
   updateTicketStatus: (id: string, status: TicketStatus) => void
   updateTicketPriority: (id: string, priority: TicketPriority) => void
   updateTicketAssignee: (id: string, assignee: string) => void
-  updateTicketTeam: (id: string, team: TicketTeam | undefined) => void
+  updateTicketTeam: (id: string, team: TicketTeam) => void
   getTicket: (id: string) => Ticket | undefined
   notifications: Notification[]
   unreadNotificationsCount: number
@@ -102,8 +102,8 @@ export function TicketsProvider({ children }: { children: ReactNode }) {
         description: input.description.trim(),
         status: DEFAULT_STATUS,
         priority: input.priority,
-        ...(input.team ? { team: input.team } : {}),
-        ...(assignee ? { assignee } : {}),
+        team: input.team,
+        ...(assignee && isTeamMember(input.team, assignee) ? { assignee } : {}),
         createdAt: now,
         updatedAt: now,
       }
@@ -164,6 +164,9 @@ export function TicketsProvider({ children }: { children: ReactNode }) {
       if (!target) return
       const trimmed = assignee.trim()
       if ((target.assignee ?? '') === trimmed) return
+      // Nunca mantém uma combinação inválida: só aceita um responsável que
+      // pertença à equipe atual do chamado.
+      if (trimmed && !isTeamMember(target.team, trimmed)) return
       patchTicket(
         id,
         { assignee: trimmed || undefined },
@@ -177,17 +180,20 @@ export function TicketsProvider({ children }: { children: ReactNode }) {
   )
 
   const updateTicketTeam = useCallback(
-    (id: string, team: TicketTeam | undefined) => {
+    (id: string, team: TicketTeam) => {
       const target = tickets.find((ticket) => ticket.id === id)
       if (!target || target.team === team) return
-      patchTicket(
-        id,
-        { team },
-        team
-          ? `Chamado "${target.title}" movido para a equipe ${TEAM_LABELS[team]}`
-          : `Equipe do chamado "${target.title}" removida`,
-        'warning',
-      )
+
+      // Ao trocar de equipe, um responsável que não pertença à nova equipe é
+      // removido automaticamente — nunca mantém uma combinação inválida.
+      const keepsAssignee = isTeamMember(team, target.assignee)
+      const patch = keepsAssignee ? { team } : { team, assignee: undefined }
+
+      const message = keepsAssignee
+        ? `Chamado "${target.title}" movido para a equipe ${TEAM_LABELS[team]}`
+        : `Chamado "${target.title}" movido para a equipe ${TEAM_LABELS[team]} — responsável removido por não pertencer à nova equipe`
+
+      patchTicket(id, patch, message, 'warning')
     },
     [tickets, patchTicket],
   )

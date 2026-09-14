@@ -64,7 +64,7 @@ export default function App() {
             onPriorityChange={(priority: TicketPriority) =>
               updateTicketPriority(selectedTicket.id, priority)
             }
-            onTeamChange={(team: TicketTeam | undefined) => updateTicketTeam(selectedTicket.id, team)}
+            onTeamChange={(team: TicketTeam) => updateTicketTeam(selectedTicket.id, team)}
             onAssigneeChange={(assignee: string) =>
               updateTicketAssignee(selectedTicket.id, assignee)
             }

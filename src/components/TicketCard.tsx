@@ -1,5 +1,6 @@
 import type { Ticket } from '../types/ticket'
 import { formatDate } from '../lib/formatDate'
+import { TEAM_LABELS } from '../lib/teams'
 import { PriorityBadge } from './PriorityBadge'
 import { StatusBadge } from './StatusBadge'
 import styles from './TicketCard.module.css'
@@ -20,6 +21,9 @@ export function TicketCard({ ticket, onSelect }: TicketCardProps) {
             <StatusBadge status={ticket.status} />
           </div>
         </div>
+        <span className={styles.assignment}>
+          👥 {TEAM_LABELS[ticket.team]} · 👤 {ticket.assignee ?? 'Sem responsável'}
+        </span>
         <span className={styles.meta}>Criado em {formatDate(ticket.createdAt)}</span>
       </button>
     </li>

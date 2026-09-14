@@ -24,3 +24,10 @@
   line-height: 1.4;
   overflow-wrap: anywhere;
 }
+
+.assignment {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}

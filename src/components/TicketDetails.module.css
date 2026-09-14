@@ -45,6 +45,20 @@
   overflow-wrap: anywhere;
 }
 
+.assignment {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.hint {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
 .control {
   width: 100%;
   padding: 9px 12px;

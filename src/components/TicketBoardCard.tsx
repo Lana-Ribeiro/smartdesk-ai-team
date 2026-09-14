@@ -27,18 +27,14 @@ export function TicketBoardCard({ ticket, onOpenDetails }: TicketBoardCardProps)
       </div>
 
       <dl className={styles.meta}>
-        {ticket.assignee && (
-          <div className={styles.metaItem}>
-            <dt>Responsável</dt>
-            <dd>{ticket.assignee}</dd>
-          </div>
-        )}
-        {ticket.team && (
-          <div className={styles.metaItem}>
-            <dt>Equipe</dt>
-            <dd>{TEAM_LABELS[ticket.team]}</dd>
-          </div>
-        )}
+        <div className={styles.metaItem}>
+          <dt>Equipe</dt>
+          <dd>👥 {TEAM_LABELS[ticket.team]}</dd>
+        </div>
+        <div className={styles.metaItem}>
+          <dt>Responsável</dt>
+          <dd>👤 {ticket.assignee ?? 'Sem responsável'}</dd>
+        </div>
         <div className={styles.metaItem}>
           <dt>Atualizado</dt>
           <dd>{formatRelativeTime(ticket.updatedAt)}</dd>

@@ -39,6 +39,12 @@
   overflow-wrap: anywhere;
 }
 
+.assignment {
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
 .meta {
   color: var(--text-secondary);
   font-size: 0.8125rem;

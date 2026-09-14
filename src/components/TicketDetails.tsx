@@ -1,7 +1,7 @@
 import type { Ticket, TicketPriority, TicketStatus, TicketTeam } from '../types/ticket'
 import { formatDate } from '../lib/formatDate'
 import { PRIORITY_LABELS, TICKET_PRIORITIES } from '../lib/priorities'
-import { TEAM_LABELS, TICKET_TEAMS } from '../lib/teams'
+import { TEAM_LABELS, TICKET_TEAMS, getTeamMembers } from '../lib/teams'
 import { PriorityBadge } from './PriorityBadge'
 import { StatusBadge } from './StatusBadge'
 import { StatusSelect } from './StatusSelect'
@@ -11,7 +11,7 @@ interface TicketDetailsProps {
   ticket: Ticket
   onStatusChange: (status: TicketStatus) => void
   onPriorityChange: (priority: TicketPriority) => void
-  onTeamChange: (team: TicketTeam | undefined) => void
+  onTeamChange: (team: TicketTeam) => void
   onAssigneeChange: (assignee: string) => void
 }
 
@@ -22,6 +22,8 @@ export function TicketDetails({
   onTeamChange,
   onAssigneeChange,
 }: TicketDetailsProps) {
+  const members = getTeamMembers(ticket.team)
+
   return (
     <article className={styles.details}>
       <div className={styles.heading}>
@@ -30,6 +32,11 @@ export function TicketDetails({
           <PriorityBadge priority={ticket.priority} />
           <StatusBadge status={ticket.status} />
         </div>
+      </div>
+
+      <div className={styles.assignment}>
+        <span>👥 {TEAM_LABELS[ticket.team]}</span>
+        <span>👤 {ticket.assignee ?? 'Sem responsável'}</span>
       </div>
 
       <section className={styles.section}>
@@ -67,32 +74,37 @@ export function TicketDetails({
         <select
           id="details-team"
           className={styles.control}
-          value={ticket.team ?? ''}
-          onChange={(event) =>
-            onTeamChange(event.target.value ? (event.target.value as TicketTeam) : undefined)
-          }
+          value={ticket.team}
+          onChange={(event) => onTeamChange(event.target.value as TicketTeam)}
         >
-          <option value="">Sem equipe definida</option>
           {TICKET_TEAMS.map((team) => (
             <option key={team} value={team}>
               {TEAM_LABELS[team]}
             </option>
           ))}
         </select>
+        <p className={styles.hint}>
+          Trocar a equipe remove o responsável atual se ele não pertencer à nova equipe.
+        </p>
       </section>
 
       <section className={styles.section}>
         <label className={styles.sectionTitle} htmlFor="details-assignee">
           Responsável
         </label>
-        <input
+        <select
           id="details-assignee"
           className={styles.control}
-          defaultValue={ticket.assignee ?? ''}
-          onBlur={(event) => onAssigneeChange(event.target.value)}
-          placeholder="Ex.: Ana Souza"
-          maxLength={80}
-        />
+          value={ticket.assignee ?? ''}
+          onChange={(event) => onAssigneeChange(event.target.value)}
+        >
+          <option value="">Sem responsável definido</option>
+          {members.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
       </section>
 
       <dl className={styles.meta}>

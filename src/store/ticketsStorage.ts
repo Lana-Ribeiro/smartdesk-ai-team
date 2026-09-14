@@ -1,7 +1,7 @@
 import type { Ticket } from '../types/ticket'
 import { isTicketStatus } from '../lib/statuses'
 import { isTicketPriority } from '../lib/priorities'
-import { isTicketTeam } from '../lib/teams'
+import { DEFAULT_TEAM, isTeamMember, isTicketTeam } from '../lib/teams'
 
 /**
  * Camada de persistência dos chamados.
@@ -25,9 +25,27 @@ function isTicket(value: unknown): value is Ticket {
     typeof ticket.updatedAt === 'string' &&
     isTicketStatus(ticket.status) &&
     isTicketPriority(ticket.priority) &&
-    (ticket.team === undefined || isTicketTeam(ticket.team)) &&
+    // team/assignee validados frouxamente aqui — a normalização abaixo cuida de
+    // deixá-los consistentes, para não descartar chamados salvos por versões
+    // anteriores (equipe passou a ser obrigatória; responsável passou a ser
+    // restrito aos membros da equipe).
+    (ticket.team === undefined || typeof ticket.team === 'string') &&
     (ticket.assignee === undefined || typeof ticket.assignee === 'string')
   )
+}
+
+/**
+ * Garante que todo chamado tenha uma equipe válida e que o responsável (se
+ * houver) pertença a ela. Chamados de versões anteriores (equipe ausente, ou
+ * responsável em texto livre incompatível com a lista fechada atual) são
+ * migrados em vez de descartados.
+ */
+function normalizeTicket(ticket: Ticket): Ticket {
+  const team = isTicketTeam(ticket.team) ? ticket.team : DEFAULT_TEAM
+  const assignee = isTeamMember(team, ticket.assignee) ? ticket.assignee : undefined
+
+  if (team === ticket.team && assignee === ticket.assignee) return ticket
+  return { ...ticket, team, assignee }
 }
 
 export function loadTickets(): Ticket[] {
@@ -38,8 +56,9 @@ export function loadTickets(): Ticket[] {
     const parsed: unknown = JSON.parse(raw)
     if (!Array.isArray(parsed)) return []
 
-    // Descarta registros inválidos em vez de quebrar a aplicação.
-    return parsed.filter(isTicket)
+    // Descarta registros inválidos em vez de quebrar a aplicação; normaliza os
+    // demais para o modelo atual de equipe/responsável.
+    return parsed.filter(isTicket).map(normalizeTicket)
   } catch {
     return []
   }
