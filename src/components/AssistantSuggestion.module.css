@@ -1,0 +1,48 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 18px;
+  background-color: var(--accent-soft);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius-md);
+}
+
+.heading {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--accent-hover);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+@media (max-width: 480px) {
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions > * {
+    width: 100%;
+  }
+}
