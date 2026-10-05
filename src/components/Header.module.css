@@ -3,8 +3,10 @@
   top: 0;
   z-index: 10;
   height: var(--header-height);
-  background-color: var(--surface-card);
-  border-bottom: 1px solid var(--border);
+  background-image: linear-gradient(100deg, var(--accent) 0%, var(--accent-strong) 100%);
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  box-shadow: 0 2px 10px rgba(59, 31, 184, 0.28);
 }
 
 .inner {
@@ -23,8 +25,8 @@
   width: 34px;
   height: 34px;
   border-radius: var(--radius-sm);
-  background-color: var(--accent);
-  color: var(--text-inverse);
+  background-color: var(--text-inverse);
+  color: var(--accent);
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.03em;
@@ -46,7 +48,7 @@
 
 .tagline {
   font-size: 0.8125rem;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .nav {
@@ -60,7 +62,7 @@
   border: none;
   border-radius: var(--radius-sm);
   background-color: transparent;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.86);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
@@ -68,12 +70,18 @@
 }
 
 .navButton:hover {
-  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.14);
+  color: var(--text-inverse);
 }
 
-.navButtonActive {
-  background-color: var(--accent-soft);
+.navButtonActive,
+.navButtonActive:hover {
+  background-color: var(--text-inverse);
   color: var(--accent);
+}
+
+.navButton:focus-visible {
+  outline-color: var(--text-inverse);
 }
 
 @media (max-width: 480px) {

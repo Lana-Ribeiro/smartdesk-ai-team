@@ -2,7 +2,7 @@
    respectivos arquivos *.module.css. */
 
 :root {
-  --surface-page: #f5f6f8;
+  --surface-page: #f4f2ff;
   --surface-card: #ffffff;
   --surface-subtle: #eef0f4;
 
@@ -13,9 +13,10 @@
   --text-secondary: #5b6273;
   --text-inverse: #ffffff;
 
-  --accent: #2f5bea;
-  --accent-hover: #2449c4;
-  --accent-soft: #e8edfd;
+  --accent: #5b3df5;
+  --accent-hover: #4527d6;
+  --accent-soft: #ece8ff;
+  --accent-strong: #3b1fb8;
 
   --status-open-bg: #e4f0ff;
   --status-open-fg: #14508f;
