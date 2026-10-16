@@ -1,0 +1,92 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  background-color: var(--surface-card);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.card:hover {
+  transform: translateY(-1px);
+}
+
+.card.active {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+
+.count {
+  font-size: 1.625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: currentColor;
+  flex-shrink: 0;
+}
+
+.toneCritical {
+  border-left-color: var(--priority-high-fg);
+}
+.toneCritical .dot {
+  color: var(--priority-high-fg);
+}
+
+.toneInProgress {
+  border-left-color: var(--status-progress-fg);
+}
+.toneInProgress .dot {
+  color: var(--status-progress-fg);
+}
+
+.toneWaiting {
+  border-left-color: var(--status-open-fg);
+}
+.toneWaiting .dot {
+  color: var(--status-open-fg);
+}
+
+.toneResolved {
+  border-left-color: var(--priority-low-fg);
+}
+.toneResolved .dot {
+  color: var(--priority-low-fg);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

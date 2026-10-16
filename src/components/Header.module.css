@@ -1,0 +1,100 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: var(--header-height);
+  background-color: var(--header-bg);
+  color: var(--text-inverse);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.mark {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background-color: var(--accent);
+  color: var(--text-inverse);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  flex-shrink: 0;
+}
+
+.titles {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  min-width: 0;
+}
+
+.brand {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.tagline {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.nav {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.navButton {
+  padding: 8px 14px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.navButton:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+  color: var(--text-inverse);
+}
+
+.navButtonActive,
+.navButtonActive:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--text-inverse);
+}
+
+.navButtonActive,
+.navButtonActive:hover {
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.navButton:focus-visible {
+  outline-color: var(--text-inverse);
+}
+
+@media (max-width: 480px) {
+  .tagline {
+    display: none;
+  }
+
+  .navButton {
+    padding: 8px 10px;
+    font-size: 0.8125rem;
+  }
+}
