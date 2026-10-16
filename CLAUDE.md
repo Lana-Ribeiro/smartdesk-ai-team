@@ -9,7 +9,7 @@ O objetivo principal deste repositório **não é o SmartDesk em si**, e sim dem
 
 ## Estado atual
 
-A primeira versão funcional do SmartDesk está implementada: criar, listar e visualizar chamados, e alterar o status entre `OPEN`, `IN_PROGRESS` e `CLOSED`.
+O SmartDesk está funcional e já cresceu por várias Issues: chamados com prioridade, equipe e responsável; central de atendimento orientada à ação; Dashboard; Kanban; assistente de criação (heurística local); e central de notificações. Detalhes em [docs/project-overview.md](docs/project-overview.md).
 
 Stack: **React 18 + TypeScript + Vite**, sem backend — os dados ficam em memória e são espelhados no `localStorage`. Detalhes e justificativa em [docs/architecture.md](docs/architecture.md).
 
@@ -32,7 +32,7 @@ Cada nova Issue no repositório representa uma solicitação de desenvolvimento.
 
 ```
 .claude/
-├── agents/          Definições dos 5 agentes do pipeline
+├── agents/          Definições dos 6 agentes do pipeline
 └── skills/          Uma skill por etapa do pipeline
 
 docs/
@@ -59,6 +59,7 @@ src/
 | `tech-lead` | Traduz os requisitos em um plano técnico de implementação |
 | `developer` | Implementa o plano em código |
 | `qa` | Valida a implementação contra os critérios de aceite da Issue |
+| `github-manager` | Único agente que fala com o GitHub: comenta Issues, move o card no Project e fecha a Issue quando o `orchestrator` pede |
 
 Ver [docs/architecture.md](docs/architecture.md) para a relação entre agentes e skills.
 

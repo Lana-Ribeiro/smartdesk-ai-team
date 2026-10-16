@@ -19,19 +19,22 @@ Times reais frequentemente dividem o trabalho de desenvolvimento em papéis: alg
 
 ## O sistema SmartDesk
 
-Aplicação simples de gerenciamento de chamados. Funcionalidades já implementadas:
+Aplicação de gerenciamento de chamados. Funcionalidades já implementadas (cada uma nasceu de uma GitHub Issue e passou pelo pipeline de agentes):
 
-- Criar chamado (título e descrição; nasce com status `OPEN`)
-- Listar chamados (título e status)
-- Visualizar detalhes de um chamado (título, descrição e status)
-- Alterar status entre `OPEN`, `IN_PROGRESS` e `CLOSED`
+- **Chamados:** criar (título, descrição, prioridade e equipe obrigatórias; responsável opcional), visualizar detalhes e alterar status, prioridade, equipe e responsável.
+- **Central de atendimento:** tela principal orientada à ação — indicadores clicáveis, seção "Precisa da sua atenção", cards com ações rápidas, busca por texto/linguagem natural e filtros combináveis, com estados de carregamento, vazio e erro.
+- **Dashboard:** indicadores, distribuição por status e prioridade, chamados recentes, busca e filtros.
+- **Kanban:** chamados agrupados em colunas por status.
+- **Assistente de criação:** sugere título e prioridade a partir da descrição (heurística local, sem IA externa).
+- **Notificações:** sino com contagem de não lidas e painel de eventos dos chamados.
+- **Equipes e responsáveis:** 4 equipes, cada uma com seus membros; combinações inválidas são impedidas.
 
 A aplicação roda inteiramente no navegador (React + TypeScript + Vite), com os dados em memória e espelhados no `localStorage`. Ver [architecture.md](architecture.md) para a stack e o modelo de dados. Novas funcionalidades continuam sendo adicionadas incrementalmente, uma Issue por vez.
 
 ## O que este projeto **não** é
 
 - Não é um sistema de help desk pronto para produção.
-- Não tem (por ora) requisitos de autenticação, permissões, multi-tenant, notificações, ou integrações externas.
+- Não tem (por ora) requisitos de autenticação, permissões, multi-tenant, ou integrações externas — nem backend: os dados ficam no `localStorage`.
 - Não deve crescer em complexidade além do necessário para demonstrar o fluxo — se uma funcionalidade exigir complexidade desproporcional ao valor de demonstração, isso deve ser questionado antes de implementada.
 
 ## Próximos passos
